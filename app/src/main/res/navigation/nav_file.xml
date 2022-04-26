@@ -18,10 +18,19 @@
         android:id="@+id/profileFragment"
         android:name="com.utn.cookapp.fragments.ProfileFragment"
         android:label="profile_fragment"
-        tools:layout="@layout/profile_fragment" />
+        tools:layout="@layout/profile_fragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_settingsActivity"
+            app:destination="@id/settingsActivity" />
+    </fragment>
     <fragment
         android:id="@+id/addFragment"
         android:name="com.utn.cookapp.fragments.AddFragment"
         android:label="add_fragment"
         tools:layout="@layout/add_fragment" />
+    <activity
+        android:id="@+id/settingsActivity"
+        android:name="com.utn.cookapp.activities.SettingsActivity"
+        android:label="activity_settings"
+        tools:layout="@layout/activity_settings" />
 </navigation>
