@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.navigation.findNavController
 import com.utn.cookapp.R
 import com.utn.cookapp.database.recipeDao
 import com.utn.cookapp.database.recipeDatabase
@@ -59,7 +60,9 @@ class AddFragment : Fragment() {
         recipeList = recipeDao?.loadAllPersons() as MutableList<Recipe>
 
         addBtn.setOnClickListener {
-               recipeDao?.insertPerson(Recipe(recipeList.size+1, recipeName.text.toString(),author.text.toString(),image.text.toString(), recipe.text.toString()))
+            recipeDao?.insertPerson(Recipe(recipeList.size+1, recipeName.text.toString(),author.text.toString(),image.text.toString(), recipe.text.toString()))
+            val action = AddFragmentDirections.actionAddFragmentToRecyclerViewFragment()
+            v.findNavController().navigate(action)
         }
     }
 

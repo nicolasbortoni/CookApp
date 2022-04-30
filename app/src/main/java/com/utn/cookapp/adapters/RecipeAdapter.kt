@@ -1,6 +1,7 @@
 package com.utn.cookapp.adapters
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.utn.cookapp.R
 import com.utn.cookapp.entities.Recipe
 
-class RecipeAdapter(var recipeList : MutableList<Recipe>, val context : Context, var onClick : (Int) -> Unit) : RecyclerView.Adapter<RecipeAdapter.RecipeHolder>()
+class RecipeAdapter(
+    var recipeList : MutableList<Recipe>,
+    val context : Context,
+    var onLongClick : (Int) -> Boolean,
+    var onClick : (Int) -> Unit,
+    val selectedPosition : Int
+    ) : RecyclerView.Adapter<RecipeAdapter.RecipeHolder>()
+
 {
     class RecipeHolder(v : View) : RecyclerView.ViewHolder(v){
         private var view : View = v
@@ -42,9 +50,15 @@ class RecipeAdapter(var recipeList : MutableList<Recipe>, val context : Context,
             .load(recipeList[position].uid)
             .centerInside()
             .into(holder.getImageView());*/
+        if (selectedPosition == position && selectedPosition != -2)
+        {
+            holder.getCardView().setCardBackgroundColor(Color.parseColor("#C0C0C0"))
+        }
 
-
-        holder.getCardView().setOnClickListener {
+        holder.getCardView().setOnLongClickListener() {
+            onLongClick(position)
+        }
+        holder.getCardView().setOnClickListener() {
             onClick(position)
         }
     }

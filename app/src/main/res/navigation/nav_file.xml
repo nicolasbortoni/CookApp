@@ -27,7 +27,11 @@
         android:id="@+id/addFragment"
         android:name="com.utn.cookapp.fragments.AddFragment"
         android:label="add_fragment"
-        tools:layout="@layout/add_fragment" />
+        tools:layout="@layout/add_fragment" >
+        <action
+            android:id="@+id/action_addFragment_to_recyclerViewFragment"
+            app:destination="@id/recyclerViewFragment" />
+    </fragment>
     <activity
         android:id="@+id/settingsActivity"
         android:name="com.utn.cookapp.activities.SettingsActivity"
