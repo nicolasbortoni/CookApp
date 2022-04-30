@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_addFragment_to_recyclerViewFragment"
             app:destination="@id/recyclerViewFragment" />
+        <argument
+            android:name="recipeToEdit"
+            app:argType="com.utn.cookapp.entities.Recipe" />
     </fragment>
     <activity
         android:id="@+id/settingsActivity"

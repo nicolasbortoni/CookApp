@@ -23,21 +23,21 @@ import com.utn.cookapp.viewmodels.RecyclerViewViewModel
 class RecyclerViewFragment : Fragment() {
 
     private lateinit var viewModel: RecyclerViewViewModel
-
+    //Views
     private lateinit var v : View
-
     private lateinit var addButton : FloatingActionButton
     private lateinit var editButton : FloatingActionButton
     private lateinit var trashButton : FloatingActionButton
-    private var selectedPosition : Int = 0
-
     private lateinit var recyclerView : RecyclerView
-
+    //Variables
+    private var selectedPosition : Int = 0
+    private lateinit var selectedRecipe : Recipe
+    private var nullRecipe = Recipe(-1,"","","","")
+    private lateinit var recipeList : MutableList<Recipe>
+    //Database
     private var db: recipeDatabase? = null
     private var recipeDao: recipeDao? = null
-
-    private lateinit var recipeList : MutableList<Recipe>
-
+    //Lambdas
     val funct1 = { index : Int -> onLongItemClick(index) }
     val funct2 = { index : Int -> onItemClick(index) }
 
@@ -49,8 +49,8 @@ class RecyclerViewFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //Views configuration
         v = inflater.inflate(R.layout.recycler_view_fragment, container, false)
-
         addButton = v.findViewById(R.id.addBtn)
         recyclerView = v.findViewById(R.id.recyclerViewRecipes)
         editButton = v.findViewById(R.id.editBtn)
@@ -61,32 +61,50 @@ class RecyclerViewFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
+        //Database load
         db = recipeDatabase.getAppDataBase(v.context)
         recipeDao = db?.recipeDao()
-
+        //Recipe list from database
         recipeList = recipeDao?.loadAllPersons() as MutableList<Recipe>
-
+        //RecyclerView configuration
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(context)
+        //RecyclerView construction
         recyclerView.adapter = RecipeAdapter(recipeList,requireContext(),funct1,funct2,-1)
 
 
         addButton.setOnClickListener {
-            val action = RecyclerViewFragmentDirections.actionRecyclerViewFragmentToAddFragment()
+            //Navigation into AddFragment
+            val action = RecyclerViewFragmentDirections.actionRecyclerViewFragmentToAddFragment(nullRecipe)
             v.findNavController().navigate(action)
         }
 
         trashButton.setOnClickListener{
-
-            if(selectedPosition < recipeList.size && selectedPosition>=0){
-
+            //Check for selected item
+            if(selectedPosition < recipeList.size && selectedPosition>=0) {
+                //Remove item from database - Refresh recipeList from database
                 recipeDao?.delete(recipeList[selectedPosition])
                 recipeList = recipeDao?.loadAllPersons() as MutableList<Recipe>
-                recyclerView.adapter = RecipeAdapter(recipeList,requireContext(),funct1,funct2,-1)
+                //Refresh recyclerview
+                recyclerView.adapter =
+                    RecipeAdapter(recipeList, requireContext(), funct1, funct2, -1)
                 selectedPosition = -2
             }
+            trashButton.setVisibility(View.INVISIBLE)
+            editButton.setVisibility(View.INVISIBLE)
 
+        }
+
+        editButton.setOnClickListener {
+            //Check for selected item
+            if(selectedPosition < recipeList.size && selectedPosition>=0){
+                //Extract recipe from position to send it
+                selectedRecipe = recipeList[selectedPosition]
+                selectedPosition = -2
+                //Navigation into AddFragment
+                val action = RecyclerViewFragmentDirections.actionRecyclerViewFragmentToAddFragment(selectedRecipe)
+                v.findNavController().navigate(action)
+            }
         }
 
     }
@@ -98,13 +116,18 @@ class RecyclerViewFragment : Fragment() {
     }
 
     fun onLongItemClick(pos : Int) : Boolean{
+        //Selection logic
         if(selectedPosition==pos){
             recyclerView.adapter = RecipeAdapter(recipeList, requireContext(), funct1, funct2, -2)
             selectedPosition = -2
+            trashButton.setVisibility(View.INVISIBLE)
+            editButton.setVisibility(View.INVISIBLE)
         }
         else {
             recyclerView.adapter = RecipeAdapter(recipeList, requireContext(), funct1, funct2, pos)
             selectedPosition = pos
+            trashButton.setVisibility(View.VISIBLE)
+            editButton.setVisibility(View.VISIBLE)
         }
         return true
     }

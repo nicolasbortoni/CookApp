@@ -38,7 +38,7 @@
         android:layout_marginBottom="30dp"
         android:clickable="true"
         android:src="@drawable/delete_fill0_wght400_grad0_opsz48"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:backgroundTint="#FF9800"
         app:layout_constraintBottom_toTopOf="@+id/addBtn"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -51,7 +51,7 @@
         android:layout_marginBottom="10dp"
         android:clickable="true"
         android:src="@drawable/edit_fill0_wght400_grad0_opsz48"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:backgroundTint="#8BC34A"
         app:layout_constraintBottom_toTopOf="@+id/trashBtn"
         app:layout_constraintEnd_toEndOf="parent" />

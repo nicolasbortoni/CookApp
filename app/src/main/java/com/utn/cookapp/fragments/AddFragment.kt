@@ -20,20 +20,19 @@ import com.utn.cookapp.viewmodels.AddViewModel
 class AddFragment : Fragment() {
 
     private lateinit var viewModel: AddViewModel
-
+    //Views
     private lateinit var v : View
-
     private lateinit var recipeName : EditText
     private lateinit var author : EditText
     private lateinit var image : EditText
     private lateinit var recipe : EditText
-
     private lateinit var addBtn : Button
-
+    //Database
     private var db: recipeDatabase? = null
     private var recipeDao : recipeDao? = null
+    //Variables
     private lateinit var recipeList : MutableList<Recipe>
-
+    private lateinit var recipeToEdit : Recipe
     private var i :Int = 0
 
     companion object {
@@ -44,6 +43,7 @@ class AddFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //Views configuration
         v = inflater.inflate(R.layout.add_fragment, container, false)
         recipe = v.findViewById(R.id.recipePlainText)
         recipeName = v.findViewById(R.id.recipeNamePlainText)
@@ -55,14 +55,51 @@ class AddFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        //Receive arguments
+        recipeToEdit = AddFragmentArgs.fromBundle(requireArguments()).recipeToEdit
+        //Database load
         db = recipeDatabase.getAppDataBase(v.context)
         recipeDao = db?.recipeDao()
+        //Recipe list from database
         recipeList = recipeDao?.loadAllPersons() as MutableList<Recipe>
 
+        if (recipeToEdit.id == -1){
+            //No recipe to edit
+        }
+        else{
+            //Fill fields to edit
+            recipe.setText(recipeToEdit.recipe)
+            recipeName.setText(recipeToEdit.name)
+            author.setText(recipeToEdit.author)
+            image.setText(recipeToEdit.image)
+        }
         addBtn.setOnClickListener {
-            recipeDao?.insertPerson(Recipe(recipeList.size+1, recipeName.text.toString(),author.text.toString(),image.text.toString(), recipe.text.toString()))
-            val action = AddFragmentDirections.actionAddFragmentToRecyclerViewFragment()
-            v.findNavController().navigate(action)
+            if (recipeToEdit.id==-1) {
+                recipeDao?.insertPerson(
+                    Recipe(
+                        recipeList.size + 1,
+                        recipeName.text.toString(),
+                        author.text.toString(),
+                        image.text.toString(),
+                        recipe.text.toString()
+                    )
+                )
+                val action = AddFragmentDirections.actionAddFragmentToRecyclerViewFragment()
+                v.findNavController().navigate(action)
+            }
+            else{
+                recipeDao?.insertPerson(
+                    Recipe(
+                        recipeToEdit.id,
+                        recipeName.text.toString(),
+                        author.text.toString(),
+                        image.text.toString(),
+                        recipe.text.toString()
+                    )
+                )
+                val action = AddFragmentDirections.actionAddFragmentToRecyclerViewFragment()
+                v.findNavController().navigate(action)
+            }
         }
     }
 
