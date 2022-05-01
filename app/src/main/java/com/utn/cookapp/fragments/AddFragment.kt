@@ -75,6 +75,7 @@ class AddFragment : Fragment() {
         }
         addBtn.setOnClickListener {
             if (recipeToEdit.id==-1) {
+                //Add new recipe to DB
                 recipeDao?.insertPerson(
                     Recipe(
                         recipeList.size + 1,
@@ -88,6 +89,7 @@ class AddFragment : Fragment() {
                 v.findNavController().navigate(action)
             }
             else{
+                //Replace recipe to DB
                 recipeDao?.insertPerson(
                     Recipe(
                         recipeToEdit.id,

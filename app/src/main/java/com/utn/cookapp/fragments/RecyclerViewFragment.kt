@@ -133,6 +133,7 @@ class RecyclerViewFragment : Fragment() {
     }
     fun onItemClick(pos : Int){
 
+
     }
 
 }
