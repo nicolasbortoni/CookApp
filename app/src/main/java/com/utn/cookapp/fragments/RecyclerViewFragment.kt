@@ -30,7 +30,7 @@ class RecyclerViewFragment : Fragment() {
     private lateinit var trashButton : FloatingActionButton
     private lateinit var recyclerView : RecyclerView
     //Variables
-    private var selectedPosition : Int = 0
+    private var selectedPosition : Int = -2
     private lateinit var selectedRecipe : Recipe
     private var nullRecipe = Recipe(-1,"","","","")
     private lateinit var recipeList : MutableList<Recipe>
@@ -70,7 +70,7 @@ class RecyclerViewFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(context)
         //RecyclerView construction
-        recyclerView.adapter = RecipeAdapter(recipeList,requireContext(),funct1,funct2,-1)
+        recyclerView.adapter = RecipeAdapter(recipeList,requireContext(),funct1,funct2,-2)
 
 
         addButton.setOnClickListener {
@@ -87,12 +87,11 @@ class RecyclerViewFragment : Fragment() {
                 recipeList = recipeDao?.loadAllPersons() as MutableList<Recipe>
                 //Refresh recyclerview
                 recyclerView.adapter =
-                    RecipeAdapter(recipeList, requireContext(), funct1, funct2, -1)
+                    RecipeAdapter(recipeList, requireContext(), funct1, funct2, -2)
                 selectedPosition = -2
             }
             trashButton.setVisibility(View.INVISIBLE)
             editButton.setVisibility(View.INVISIBLE)
-
         }
 
         editButton.setOnClickListener {
@@ -132,8 +131,13 @@ class RecyclerViewFragment : Fragment() {
         return true
     }
     fun onItemClick(pos : Int){
+        if(selectedPosition == -2){
+            val action = RecyclerViewFragmentDirections.actionRecyclerViewFragmentToDetailContainerFragment()
+            v.findNavController().navigate(action)
+        }
+        else{
 
-
+        }
     }
 
 }

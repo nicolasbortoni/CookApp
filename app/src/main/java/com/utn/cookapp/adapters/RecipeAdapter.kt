@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.utn.cookapp.R
 import com.utn.cookapp.entities.Recipe
 
@@ -29,12 +30,17 @@ class RecipeAdapter(
             recipeName.text = name
         }
 
+        fun setAuthor(name : String) {
+            var recipeAuthor : TextView = view.findViewById(R.id.recipeAuthor)
+            recipeAuthor.text = name
+        }
+
         fun getCardView() : CardView {
             return view.findViewById(R.id.recipeCard)
         }
-        //fun getImageView() : ImageView {
-        //    return view.findViewById(R.id.imageView)
-        //}
+        fun getImageView() : ImageView {
+            return view.findViewById(R.id.imageCard)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeAdapter.RecipeHolder {
@@ -44,12 +50,15 @@ class RecipeAdapter(
 
     override fun onBindViewHolder(holder: RecipeAdapter.RecipeHolder, position: Int) {
         holder.setName(recipeList[position].name)
+        holder.setAuthor(recipeList[position].author)
 
-        /*Glide
+
+        Glide
             .with(context)
-            .load(recipeList[position].uid)
+            .load(recipeList[position].image)
             .centerInside()
-            .into(holder.getImageView());*/
+            .into(holder.getImageView());
+
         if (selectedPosition == position && selectedPosition != -2)
         {
             holder.getCardView().setCardBackgroundColor(Color.parseColor("#C0C0C0"))

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_recyclerViewFragment_to_addFragment"
             app:destination="@id/addFragment" />
+        <action
+            android:id="@+id/action_recyclerViewFragment_to_detailContainerFragment"
+            app:destination="@id/detailContainerFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -40,4 +43,19 @@
         android:name="com.utn.cookapp.activities.SettingsActivity"
         android:label="activity_settings"
         tools:layout="@layout/activity_settings" />
+    <fragment
+        android:id="@+id/detailContainerFragment"
+        android:name="com.utn.cookapp.fragments.DetailContainerFragment"
+        android:label="detail_container_fragment"
+        tools:layout="@layout/detail_container_fragment" />
+    <fragment
+        android:id="@+id/detailInfoFragment"
+        android:name="com.utn.cookapp.fragments.DetailInfoFragment"
+        android:label="detail_info_fragment"
+        tools:layout="@layout/detail_info_fragment" />
+    <fragment
+        android:id="@+id/detailRecipeFragment"
+        android:name="com.utn.cookapp.fragments.DetailRecipeFragment"
+        android:label="detail_recipe_fragment"
+        tools:layout="@layout/detail_recipe_fragment" />
 </navigation>
