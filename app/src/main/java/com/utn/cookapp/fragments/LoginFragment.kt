@@ -73,7 +73,7 @@ class LoginFragment : Fragment() {
                 if(userAux.pass == passPlainText.text.toString()){
                     userPlainText.text = null
                     passPlainText.text = null
-                    val action = LoginFragmentDirections.actionLoginFragmentToRecyclerViewFragment()
+                    val action = LoginFragmentDirections.actionLoginFragmentToMainActivity()
                     v.findNavController().navigate(action)
                 }
                 else{
