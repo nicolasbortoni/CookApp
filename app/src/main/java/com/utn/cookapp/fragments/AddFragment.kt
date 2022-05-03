@@ -72,7 +72,7 @@ class AddFragment : Fragment() {
             recipeName.setText(recipeToEdit.name)
             author.setText(recipeToEdit.author)
             image.setText(recipeToEdit.image)
-            addBtn.setText("Edit")
+            addBtn.setText("Accept")
         }
         addBtn.setOnClickListener {
             if (recipeToEdit.id==-1) {
