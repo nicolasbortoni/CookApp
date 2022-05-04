@@ -86,8 +86,7 @@ class AddFragment : Fragment() {
                         recipe.text.toString()
                     )
                 )
-                val action = AddFragmentDirections.actionAddFragmentToRecyclerViewFragment()
-                v.findNavController().navigate(action)
+                v.findNavController().popBackStack()
             }
             else{
                 //Replace recipe to DB
@@ -100,8 +99,7 @@ class AddFragment : Fragment() {
                         recipe.text.toString()
                     )
                 )
-                val action = AddFragmentDirections.actionAddFragmentToRecyclerViewFragment()
-                v.findNavController().navigate(action)
+                v.findNavController().popBackStack()
             }
         }
     }

@@ -7,11 +7,13 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.utn.cookapp.R
+import com.utn.cookapp.entities.User
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navHostFragment : NavHostFragment
     private lateinit var bottomNavigationView : BottomNavigationView
+    private lateinit var logedUser : User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,5 +22,6 @@ class MainActivity : AppCompatActivity() {
         navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         bottomNavigationView = findViewById(R.id.BottomNavigationView)
         NavigationUI.setupWithNavController(bottomNavigationView,navHostFragment.navController)
+
     }
 }

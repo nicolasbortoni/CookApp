@@ -31,9 +31,6 @@
         android:name="com.utn.cookapp.fragments.AddFragment"
         android:label="add_fragment"
         tools:layout="@layout/add_fragment" >
-        <action
-            android:id="@+id/action_addFragment_to_recyclerViewFragment"
-            app:destination="@id/recyclerViewFragment" />
         <argument
             android:name="recipeToEdit"
             app:argType="com.utn.cookapp.entities.Recipe" />

@@ -20,11 +20,7 @@
         android:id="@+id/addUserFragment"
         android:name="com.utn.cookapp.fragments.AddUserFragment"
         android:label="add_user_fragment"
-        tools:layout="@layout/add_user_fragment" >
-        <action
-            android:id="@+id/action_addUserFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-    </fragment>
+        tools:layout="@layout/add_user_fragment" />
     <activity
         android:id="@+id/mainActivity"
         android:name="com.utn.cookapp.activities.MainActivity"

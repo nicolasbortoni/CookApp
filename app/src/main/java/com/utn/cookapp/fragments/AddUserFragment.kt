@@ -1,22 +1,26 @@
 package com.utn.cookapp.fragments
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.navigation.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.utn.cookapp.R
 import com.utn.cookapp.database.userDao
 import com.utn.cookapp.database.userDatabase
-import com.utn.cookapp.entities.Recipe
 import com.utn.cookapp.entities.User
 import com.utn.cookapp.viewmodels.AddUserViewModel
-import javax.microedition.khronos.egl.EGLDisplay
 
 class AddUserFragment : Fragment() {
 
@@ -26,13 +30,16 @@ class AddUserFragment : Fragment() {
     private lateinit var usrPlainText : EditText
     private lateinit var agePlainText : EditText
     private lateinit var passPlainText : EditText
-    private lateinit var profileImagePlainText : EditText
+    private lateinit var profileView : ImageView
+    private lateinit var selectImageBtn : FloatingActionButton
     private lateinit var doneBtn : Button
 
     private var db: userDatabase? = null
     private var userDao: userDao? = null
 
     private lateinit var userList: MutableList<User>
+    private var imageUri : Uri? = null
+    private val pickImage = 100
 
     companion object {
         fun newInstance() = AddUserFragment()
@@ -50,7 +57,8 @@ class AddUserFragment : Fragment() {
         usrPlainText = v.findViewById(R.id.usernamePlainText)
         passPlainText = v.findViewById(R.id.passwordPlainText)
         agePlainText = v.findViewById(R.id.agePlainText)
-        profileImagePlainText = v.findViewById(R.id.profileImagePlainText)
+        profileView = v.findViewById(R.id.profileImage)
+        selectImageBtn = v.findViewById(R.id.selectImageBtn)
         doneBtn = v.findViewById(R.id.doneButton)
 
         return v
@@ -85,14 +93,15 @@ class AddUserFragment : Fragment() {
                         usrPlainText.text.toString(),
                         passPlainText.text.toString(),
                         agePlainText.text.toString(),
-                        profileImagePlainText.text.toString(),
+                        imageUri.toString(),
                     )
                 )
-                val action = AddUserFragmentDirections.actionAddUserFragmentToLoginFragment()
-                v.findNavController().navigate(action)
+                v.findNavController().popBackStack()
             }
-
-
+        }
+        selectImageBtn.setOnClickListener {
+            val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+            startActivityForResult(gallery, pickImage)
         }
     }
 
@@ -102,4 +111,11 @@ class AddUserFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == pickImage) {
+            imageUri = data?.data
+            profileView.setImageURI(imageUri)
+        }
+    }
 }
