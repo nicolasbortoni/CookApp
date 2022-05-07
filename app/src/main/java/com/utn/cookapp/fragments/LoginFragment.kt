@@ -59,6 +59,8 @@ class LoginFragment : Fragment() {
 
         val sharedPref : SharedPreferences = requireContext().getSharedPreferences("myPref",Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
+        editor.clear()
+        editor.commit()
 
         db = userDatabase.getAppDataBase(v.context)
         userDao = db?.userDao()
@@ -78,10 +80,7 @@ class LoginFragment : Fragment() {
                 if(userAux.pass == passPlainText.text.toString()){
                     userPlainText.text = null
                     passPlainText.text = null
-                    editor.putString("userLoged", userAux.user)
-                    editor.putString("passLoged", userAux.pass)
-                    editor.putString("ageLoged", userAux.age)
-                    editor.putString("profileImageLoged", userAux.profileImage)
+                    editor.putInt("userLoged",userAux.id)
                     editor.apply()
                     
                     val action = LoginFragmentDirections.actionLoginFragmentToMainActivity()

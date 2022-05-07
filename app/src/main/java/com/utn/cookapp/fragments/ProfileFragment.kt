@@ -15,6 +15,9 @@ import androidx.core.net.toUri
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.utn.cookapp.R
+import com.utn.cookapp.database.userDao
+import com.utn.cookapp.database.userDatabase
+import com.utn.cookapp.entities.User
 import com.utn.cookapp.viewmodels.ProfileViewModel
 
 class ProfileFragment : Fragment() {
@@ -29,6 +32,11 @@ class ProfileFragment : Fragment() {
     private lateinit var profileImage : ImageView
     private lateinit var usernameTextView: TextView
     private lateinit var ageTextView: TextView
+
+    private var db: userDatabase? = null
+    private var userDao: userDao? = null
+
+    private lateinit var userLoged : User
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,11 +54,15 @@ class ProfileFragment : Fragment() {
         super.onStart()
 
         val sharedPref : SharedPreferences = requireContext().getSharedPreferences("myPref",Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
 
-        usernameTextView.setText(getString(R.string.app_user,sharedPref.getString("userLoged","default")))
-        ageTextView.setText(getString(R.string.app_age,sharedPref.getString("ageLoged","default")))
-        profileImage.setImageURI(sharedPref.getString("profileImageLoged",null)?.toUri())
+        db = userDatabase.getAppDataBase(v.context)
+        userDao = db?.userDao()
+
+        userLoged = userDao?.loadPersonById(sharedPref.getInt("userLoged",-1)) as User
+
+        usernameTextView.text = userLoged.user
+        ageTextView.text = userLoged.age
+        profileImage.setImageURI(userLoged.profileImage.toUri())
 
         settingsBtn.setOnClickListener {
             val action = ProfileFragmentDirections.actionProfileFragmentToSettingsActivity()

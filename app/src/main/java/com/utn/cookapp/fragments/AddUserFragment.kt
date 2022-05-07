@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.core.net.toFile
 import androidx.navigation.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -93,14 +94,14 @@ class AddUserFragment : Fragment() {
                         usrPlainText.text.toString(),
                         passPlainText.text.toString(),
                         agePlainText.text.toString(),
-                        imageUri.toString(),
+                        imageUri.toString()
                     )
                 )
                 v.findNavController().popBackStack()
             }
         }
         selectImageBtn.setOnClickListener {
-            val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+            val gallery = Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(gallery, pickImage)
         }
     }
@@ -115,7 +116,7 @@ class AddUserFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == pickImage) {
             imageUri = data?.data
-            profileView.setImageURI(imageUri)
+            Snackbar.make(v,imageUri?.toString() as CharSequence, Snackbar.LENGTH_INDEFINITE).show()
         }
     }
 }

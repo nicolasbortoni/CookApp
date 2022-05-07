@@ -1,6 +1,7 @@
 package com.utn.cookapp.database
 
 import androidx.room.*
+import com.utn.cookapp.entities.Recipe
 import com.utn.cookapp.entities.User
 
 @Dao
@@ -15,5 +16,6 @@ public interface userDao {
     @Delete
     fun delete(user: User?)
 
-
+    @Query("SELECT * FROM usersTab WHERE id = :id")
+    fun loadPersonById(id: Int): User?
 }
