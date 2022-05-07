@@ -6,11 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.*
+import androidx.core.widget.addTextChangedListener
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.utn.cookapp.R
 import com.utn.cookapp.database.recipeDao
 import com.utn.cookapp.database.recipeDatabase
@@ -27,6 +26,7 @@ class AddFragment : Fragment() {
     private lateinit var image : EditText
     private lateinit var recipe : EditText
     private lateinit var addBtn : Button
+    private lateinit var recipeImageView: ImageView
     //Database
     private var db: recipeDatabase? = null
     private var recipeDao : recipeDao? = null
@@ -50,6 +50,7 @@ class AddFragment : Fragment() {
         author = v.findViewById(R.id.authorPlainText)
         image = v.findViewById(R.id.imagePlainText)
         addBtn = v.findViewById(R.id.addRecipe)
+        recipeImageView = v.findViewById(R.id.recipeImage)
         return v
     }
 
@@ -73,6 +74,13 @@ class AddFragment : Fragment() {
             author.setText(recipeToEdit.author)
             image.setText(recipeToEdit.image)
             addBtn.setText("Accept")
+
+            Glide
+                .with(requireContext())
+                .load(image.text.toString())
+                .centerInside()
+                .into(recipeImageView);
+
         }
         addBtn.setOnClickListener {
             if (recipeToEdit.id==-1) {
@@ -101,6 +109,13 @@ class AddFragment : Fragment() {
                 )
                 v.findNavController().popBackStack()
             }
+        }
+        image.addTextChangedListener {
+            Glide
+                .with(requireContext())
+                .load(image.text.toString())
+                .centerInside()
+                .into(recipeImageView);
         }
     }
 

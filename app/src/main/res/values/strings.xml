@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CookApp</string>
+    <string name="app_user">User: %1$s</string>
+    <string name="app_age">Age: %1$s</string>
 </resources>

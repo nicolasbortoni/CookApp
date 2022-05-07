@@ -1,5 +1,7 @@
 package com.utn.cookapp.fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.utn.cookapp.R
@@ -41,6 +44,13 @@ class ProfileFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        val sharedPref : SharedPreferences = requireContext().getSharedPreferences("myPref",Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
+        usernameTextView.setText(getString(R.string.app_user,sharedPref.getString("userLoged","default")))
+        ageTextView.setText(getString(R.string.app_age,sharedPref.getString("ageLoged","default")))
+        profileImage.setImageURI(sharedPref.getString("profileImageLoged",null)?.toUri())
 
         settingsBtn.setOnClickListener {
             val action = ProfileFragmentDirections.actionProfileFragmentToSettingsActivity()

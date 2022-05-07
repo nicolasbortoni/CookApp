@@ -1,5 +1,7 @@
 package com.utn.cookapp.fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -55,6 +57,9 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        val sharedPref : SharedPreferences = requireContext().getSharedPreferences("myPref",Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
         db = userDatabase.getAppDataBase(v.context)
         userDao = db?.userDao()
 
@@ -73,6 +78,12 @@ class LoginFragment : Fragment() {
                 if(userAux.pass == passPlainText.text.toString()){
                     userPlainText.text = null
                     passPlainText.text = null
+                    editor.putString("userLoged", userAux.user)
+                    editor.putString("passLoged", userAux.pass)
+                    editor.putString("ageLoged", userAux.age)
+                    editor.putString("profileImageLoged", userAux.profileImage)
+                    editor.apply()
+                    
                     val action = LoginFragmentDirections.actionLoginFragmentToMainActivity()
                     v.findNavController().navigate(action)
                 }
