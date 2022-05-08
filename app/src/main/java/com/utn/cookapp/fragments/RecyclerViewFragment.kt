@@ -1,5 +1,7 @@
 package com.utn.cookapp.fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -130,13 +132,14 @@ class RecyclerViewFragment : Fragment() {
         }
         return true
     }
-    fun onItemClick(pos : Int){
+    fun onItemClick(id : Int){
         if(selectedPosition == -2){
+            val sharedPref : SharedPreferences = requireContext().getSharedPreferences("myPref", Context.MODE_PRIVATE)
+            val editor = sharedPref.edit()
+            editor.putInt("recipeSelected",id)
+            editor.apply()
             val action = RecyclerViewFragmentDirections.actionRecyclerViewFragmentToDetailContainerFragment()
             v.findNavController().navigate(action)
-        }
-        else{
-
         }
     }
 

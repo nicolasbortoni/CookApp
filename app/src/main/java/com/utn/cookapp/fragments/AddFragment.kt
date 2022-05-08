@@ -50,7 +50,7 @@ class AddFragment : Fragment() {
         author = v.findViewById(R.id.authorPlainText)
         image = v.findViewById(R.id.imagePlainText)
         addBtn = v.findViewById(R.id.addRecipe)
-        recipeImageView = v.findViewById(R.id.recipeImage)
+        recipeImageView = v.findViewById(R.id.recipeImage2)
         return v
     }
 

@@ -62,6 +62,7 @@ class LoginFragment : Fragment() {
         editor.clear()
         editor.commit()
 
+
         db = userDatabase.getAppDataBase(v.context)
         userDao = db?.userDao()
 

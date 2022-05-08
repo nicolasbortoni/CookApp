@@ -1,5 +1,6 @@
 package com.utn.cookapp.activities
 
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
@@ -23,5 +24,6 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView = findViewById(R.id.BottomNavigationView)
         NavigationUI.setupWithNavController(bottomNavigationView,navHostFragment.navController)
 
+        //val sharedPreferences : SharedPreferences = requireConte
     }
 }

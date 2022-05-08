@@ -1,10 +1,12 @@
 package com.utn.cookapp.activities
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Switch
 import com.utn.cookapp.R
 import androidx.preference.PreferenceFragmentCompat
-
+import com.google.android.material.snackbar.Snackbar
 
 class SettingsActivity : AppCompatActivity() {
 

@@ -1,11 +1,12 @@
 package com.utn.cookapp.fragments
 
-import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.net.Uri
+import android.graphics.Bitmap
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Base64.encodeToString
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import androidx.core.net.toFile
 import androidx.navigation.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -22,6 +22,8 @@ import com.utn.cookapp.database.userDao
 import com.utn.cookapp.database.userDatabase
 import com.utn.cookapp.entities.User
 import com.utn.cookapp.viewmodels.AddUserViewModel
+import java.io.ByteArrayOutputStream
+import java.util.*
 
 class AddUserFragment : Fragment() {
 
@@ -39,8 +41,7 @@ class AddUserFragment : Fragment() {
     private var userDao: userDao? = null
 
     private lateinit var userList: MutableList<User>
-    private var imageUri : Uri? = null
-    private val pickImage = 100
+    private lateinit var imageBitmap : Bitmap
 
     companion object {
         fun newInstance() = AddUserFragment()
@@ -94,15 +95,26 @@ class AddUserFragment : Fragment() {
                         usrPlainText.text.toString(),
                         passPlainText.text.toString(),
                         agePlainText.text.toString(),
-                        imageUri.toString()
+                        BitMapToString(imageBitmap)
                     )
                 )
                 v.findNavController().popBackStack()
             }
         }
         selectImageBtn.setOnClickListener {
-            val gallery = Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(gallery, pickImage)
+            val intent = Intent()
+            intent.action = Intent.ACTION_GET_CONTENT
+            intent.type = "image/*"
+            startActivityForResult(intent,100)
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 100 && resultCode == RESULT_OK){
+            imageBitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver,data?.data)
+            profileView.setImageBitmap(imageBitmap)
         }
     }
 
@@ -112,11 +124,11 @@ class AddUserFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == pickImage) {
-            imageUri = data?.data
-            Snackbar.make(v,imageUri?.toString() as CharSequence, Snackbar.LENGTH_INDEFINITE).show()
-        }
+    fun BitMapToString(bitmap: Bitmap): String {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+        val b = baos.toByteArray()
+        return Base64.getEncoder().encodeToString(b)
     }
+
 }

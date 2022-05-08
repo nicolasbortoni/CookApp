@@ -68,7 +68,7 @@ class RecipeAdapter(
             onLongClick(position)
         }
         holder.getCardView().setOnClickListener() {
-            onClick(position)
+            onClick(recipeList[position].id)
         }
     }
 
