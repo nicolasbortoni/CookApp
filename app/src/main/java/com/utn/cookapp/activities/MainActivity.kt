@@ -3,8 +3,12 @@ package com.utn.cookapp.activities
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import androidx.preference.PreferenceManager
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.utn.cookapp.R
@@ -14,9 +18,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var navHostFragment : NavHostFragment
     private lateinit var bottomNavigationView : BottomNavigationView
-    private lateinit var logedUser : User
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -24,6 +28,5 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView = findViewById(R.id.BottomNavigationView)
         NavigationUI.setupWithNavController(bottomNavigationView,navHostFragment.navController)
 
-        //val sharedPreferences : SharedPreferences = requireConte
     }
 }
