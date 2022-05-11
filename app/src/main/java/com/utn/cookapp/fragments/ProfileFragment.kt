@@ -13,7 +13,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
+import androidx.preference.PreferenceManager
 import com.utn.cookapp.R
 import com.utn.cookapp.database.userDao
 import com.utn.cookapp.database.userDatabase

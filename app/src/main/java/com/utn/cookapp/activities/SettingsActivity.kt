@@ -1,14 +1,13 @@
 package com.utn.cookapp.activities
 
-import android.content.Context
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Switch
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import com.utn.cookapp.R
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreference
-import com.google.android.material.snackbar.Snackbar
+
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -20,7 +19,6 @@ class SettingsActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.settings, SettingsFragment())
             .commit()
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     }
 

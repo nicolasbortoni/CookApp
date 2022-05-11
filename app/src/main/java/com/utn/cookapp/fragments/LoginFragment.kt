@@ -72,10 +72,8 @@ class LoginFragment : Fragment() {
             var userAux = userList.find { it.user == userPlainText.text.toString() }
 
             if (userAux == null) {
-                Snackbar.make(v,"Nombre de usuario inválido", Snackbar.LENGTH_SHORT).show()
+                userPlainText.error = "Usuario inválido"
                 userPlainText.text = null
-                passPlainText.text = null
-                userPlainText.setHintTextColor(Color.parseColor("#ff0b16"))
             }
             else{
                 if(userAux.pass == passPlainText.text.toString()){
@@ -88,9 +86,8 @@ class LoginFragment : Fragment() {
                     v.findNavController().navigate(action)
                 }
                 else{
-                    Snackbar.make(v,"Contraseña incorrecta", Snackbar.LENGTH_SHORT).show()
+                    passPlainText.error = "Contraseña incorrecta"
                     passPlainText.text = null
-                    passPlainText.setHintTextColor(Color.parseColor("#ff0b16"))
                 }
             }
         }

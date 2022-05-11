@@ -10,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -62,7 +64,9 @@ class RecyclerViewFragment : Fragment() {
     }
 
     override fun onStart() {
+
         super.onStart()
+
         //Database load
         db = recipeDatabase.getAppDataBase(v.context)
         recipeDao = db?.recipeDao()
@@ -73,7 +77,6 @@ class RecyclerViewFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         //RecyclerView construction
         recyclerView.adapter = RecipeAdapter(recipeList,requireContext(),funct1,funct2,-2)
-
 
         addButton.setOnClickListener {
             //Navigation into AddFragment
