@@ -1,6 +1,8 @@
 package com.utn.cookapp.fragments
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.os.Handler
@@ -35,11 +37,26 @@ class SplashFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        val sharedPref : SharedPreferences = requireContext().getSharedPreferences("myPref",
+            Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
         Handler().postDelayed(
 
             {
-                val action = SplashFragmentDirections.actionSplashFragmentToLoginFragment()
-                v.findNavController().navigate(action)
+                //Check for loged user
+                if(sharedPref.getBoolean("reminder",false)){
+                    val action = SplashFragmentDirections.actionSplashFragmentToMainActivity()
+                    v.findNavController().navigate(action)
+                }
+                else{
+                    editor.clear()
+                    editor.commit()
+                    val action = SplashFragmentDirections.actionSplashFragmentToLoginFragment()
+                    v.findNavController().navigate(action)
+                }
+
+
             }
             , 1000)
 

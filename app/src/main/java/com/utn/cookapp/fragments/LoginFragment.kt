@@ -65,15 +65,6 @@ class LoginFragment : Fragment() {
         //Shared preferences init
         val sharedPref : SharedPreferences = requireContext().getSharedPreferences("myPref",Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
-        //Check for loged user
-        if(sharedPref.getBoolean("reminder",false)){
-            val action = LoginFragmentDirections.actionLoginFragmentToMainActivity()
-            v.findNavController().navigate(action)
-        }
-        else{
-            editor.clear()
-            editor.commit()
-        }
         //Database load
         db = userDatabase.getAppDataBase(v.context)
         userDao = db?.userDao()
