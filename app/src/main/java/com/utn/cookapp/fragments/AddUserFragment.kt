@@ -94,7 +94,7 @@ class AddUserFragment : Fragment() {
             {
                 userDao?.insertPerson(
                     User(
-                        UUID.randomUUID().toString(),
+                        userList.size+1,
                         usrPlainText.text.toString(),
                         passPlainText.text.toString(),
                         agePlainText.text.toString(),

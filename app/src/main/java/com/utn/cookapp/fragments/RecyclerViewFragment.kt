@@ -37,7 +37,7 @@ class RecyclerViewFragment : Fragment() {
     //Variables
     private var selectedPosition : Int = -2
     private lateinit var selectedRecipe : Recipe
-    private var nullRecipe = Recipe(-1,"","","","","")
+    private var nullRecipe = Recipe(-1,"","","","")
     private lateinit var recipeList : MutableList<Recipe>
     //Database
     private var db: recipeDatabase? = null
@@ -143,12 +143,12 @@ class RecyclerViewFragment : Fragment() {
         }
         return true
     }
-    fun onItemClick(id : String){
+    fun onItemClick(id : Int){
         //Navigate to DetailContainerFragment
         if(selectedPosition == -2){
             val sharedPref : SharedPreferences = requireContext().getSharedPreferences("myPref", Context.MODE_PRIVATE)
             val editor = sharedPref.edit()
-            editor.putString("recipeSelected",id)
+            editor.putInt("recipeSelected",id)
             editor.apply()
             val action = RecyclerViewFragmentDirections.actionRecyclerViewFragmentToDetailContainerFragment()
             v.findNavController().navigate(action)

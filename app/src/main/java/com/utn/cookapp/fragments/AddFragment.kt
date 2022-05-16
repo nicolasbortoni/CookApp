@@ -89,13 +89,11 @@ class AddFragment : Fragment() {
                 //Add new recipe to DB
                 recipeDao?.insertPerson(
                     Recipe(
-                        UUID.randomUUID().toString(),
-
+                        recipeList.size+1,
                         recipeName.text.toString(),
                         author.text.toString(),
                         image.text.toString(),
                         recipe.text.toString(),
-                        ""
                     )
                 )
                 v.findNavController().popBackStack()
@@ -109,7 +107,6 @@ class AddFragment : Fragment() {
                         author.text.toString(),
                         image.text.toString(),
                         recipe.text.toString(),
-                        ""
                     )
                 )
                 v.findNavController().popBackStack()
