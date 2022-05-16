@@ -12,7 +12,7 @@ import kotlinx.parcelize.Parcelize
 class User(
     @PrimaryKey
     @ColumnInfo(name = "Id")
-    var id : Int,
+    var id : String,
     @ColumnInfo(name = "Username")
     var user : String,
     @ColumnInfo(name = "Pass")

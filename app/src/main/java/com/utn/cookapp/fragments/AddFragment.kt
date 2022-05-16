@@ -15,11 +15,12 @@ import com.utn.cookapp.database.recipeDao
 import com.utn.cookapp.database.recipeDatabase
 import com.utn.cookapp.entities.Recipe
 import com.utn.cookapp.viewmodels.AddViewModel
+import java.util.*
 
 class AddFragment : Fragment() {
 
-    private lateinit var viewModel: AddViewModel
     //Views
+    private lateinit var viewModel: AddViewModel
     private lateinit var v : View
     private lateinit var recipeName : EditText
     private lateinit var author : EditText
@@ -51,6 +52,7 @@ class AddFragment : Fragment() {
         image = v.findViewById(R.id.imagePlainText)
         addBtn = v.findViewById(R.id.addRecipe)
         recipeImageView = v.findViewById(R.id.recipeImage2)
+
         return v
     }
 
@@ -87,11 +89,13 @@ class AddFragment : Fragment() {
                 //Add new recipe to DB
                 recipeDao?.insertPerson(
                     Recipe(
-                        recipeList.size + 1,
+                        UUID.randomUUID().toString(),
+
                         recipeName.text.toString(),
                         author.text.toString(),
                         image.text.toString(),
-                        recipe.text.toString()
+                        recipe.text.toString(),
+                        ""
                     )
                 )
                 v.findNavController().popBackStack()
@@ -104,7 +108,8 @@ class AddFragment : Fragment() {
                         recipeName.text.toString(),
                         author.text.toString(),
                         image.text.toString(),
-                        recipe.text.toString()
+                        recipe.text.toString(),
+                        ""
                     )
                 )
                 v.findNavController().popBackStack()

@@ -1,7 +1,9 @@
 package com.utn.cookapp.fragments
 
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -41,7 +43,7 @@ class AddUserFragment : Fragment() {
     private var userDao: userDao? = null
 
     private lateinit var userList: MutableList<User>
-    private lateinit var imageBitmap : Bitmap
+    private var imageBitmap : Bitmap? = null
 
     companion object {
         fun newInstance() = AddUserFragment()
@@ -67,6 +69,7 @@ class AddUserFragment : Fragment() {
     }
 
     override fun onStart() {
+
         super.onStart()
 
         db = userDatabase.getAppDataBase(v.context)
@@ -75,23 +78,23 @@ class AddUserFragment : Fragment() {
         userList = userDao?.loadAllPersons() as MutableList<User>
 
         doneBtn.setOnClickListener {
-            if(usrPlainText.text.toString() == null)
+            if(usrPlainText.text.isEmpty())
             {
-                Snackbar.make(v,"Debe ingresar un nopmbre de usuario.", Snackbar.LENGTH_SHORT).show()
+                usrPlainText.error = "Debe ingresar un nombre de usuario"
             }
-            else if(passPlainText.text.toString() == null)
+            else if(passPlainText.text.isEmpty())
             {
-                Snackbar.make(v,"Debe ingresar una contraseña.", Snackbar.LENGTH_SHORT).show()
+                passPlainText.error = "Debe ingresar una contraseña"
             }
-            else if(agePlainText.text.toString() == null)
+            else if(agePlainText.text.isEmpty())
             {
-                Snackbar.make(v,"Debe ingresar su edad.", Snackbar.LENGTH_SHORT).show()
+                agePlainText.error = "Debe ingresar su edad"
             }
             else
             {
                 userDao?.insertPerson(
                     User(
-                        userList.size+1,
+                        UUID.randomUUID().toString(),
                         usrPlainText.text.toString(),
                         passPlainText.text.toString(),
                         agePlainText.text.toString(),
@@ -124,9 +127,9 @@ class AddUserFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
-    fun BitMapToString(bitmap: Bitmap): String {
+    fun BitMapToString(bitmap: Bitmap?): String {
         val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+        bitmap?.compress(Bitmap.CompressFormat.PNG, 100, baos)
         val b = baos.toByteArray()
         return Base64.getEncoder().encodeToString(b)
     }

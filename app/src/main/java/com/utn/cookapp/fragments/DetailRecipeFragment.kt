@@ -17,14 +17,14 @@ import com.utn.cookapp.viewmodels.DetailRecipeViewModel
 
 class DetailRecipeFragment : Fragment() {
 
+    //Views
     private lateinit var viewModel: DetailRecipeViewModel
     private lateinit var v : View
-
     private lateinit var recipeText : TextView
-
+    //Database
     private var db: recipeDatabase? = null
     private var recipeDao: recipeDao? = null
-
+    //Variables
     private lateinit var recipeSelected : Recipe
 
     companion object {
@@ -35,20 +35,23 @@ class DetailRecipeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //Views configuration
         v = inflater.inflate(R.layout.detail_recipe_fragment, container, false)
         recipeText = v.findViewById(R.id.recipeText)
+
         return v
     }
 
     override fun onStart() {
         super.onStart()
-
+        //Shared preferences init
         val sharedPref : SharedPreferences = requireContext().getSharedPreferences("myPref", Context.MODE_PRIVATE)
+        //Database load
         db = recipeDatabase.getAppDataBase(v.context)
         recipeDao = db?.recipeDao()
-
+        //Select recipe from database
         recipeSelected = recipeDao?.loadPersonById(sharedPref.getInt("recipeSelected",-1)) as Recipe
-
+        //Set interface
         recipeText.text = recipeSelected.recipe
 
     }

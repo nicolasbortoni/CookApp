@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.lifecycle.ViewModel
@@ -26,8 +27,8 @@ import com.utn.cookapp.viewmodels.RecyclerViewViewModel
 
 class RecyclerViewFragment : Fragment() {
 
-    private lateinit var viewModel: RecyclerViewViewModel
     //Views
+    private lateinit var viewModel: RecyclerViewViewModel
     private lateinit var v : View
     private lateinit var addButton : FloatingActionButton
     private lateinit var editButton : FloatingActionButton
@@ -36,7 +37,7 @@ class RecyclerViewFragment : Fragment() {
     //Variables
     private var selectedPosition : Int = -2
     private lateinit var selectedRecipe : Recipe
-    private var nullRecipe = Recipe(-1,"","","","")
+    private var nullRecipe = Recipe(-1,"","","","","")
     private lateinit var recipeList : MutableList<Recipe>
     //Database
     private var db: recipeDatabase? = null
@@ -110,6 +111,13 @@ class RecyclerViewFragment : Fragment() {
                 v.findNavController().navigate(action)
             }
         }
+        //Override of function OnBackPressed
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback
+            (true) {
+            override fun handleOnBackPressed() {
+                return
+            }
+        })
 
     }
 
@@ -135,11 +143,12 @@ class RecyclerViewFragment : Fragment() {
         }
         return true
     }
-    fun onItemClick(id : Int){
+    fun onItemClick(id : String){
+        //Navigate to DetailContainerFragment
         if(selectedPosition == -2){
             val sharedPref : SharedPreferences = requireContext().getSharedPreferences("myPref", Context.MODE_PRIVATE)
             val editor = sharedPref.edit()
-            editor.putInt("recipeSelected",id)
+            editor.putString("recipeSelected",id)
             editor.apply()
             val action = RecyclerViewFragmentDirections.actionRecyclerViewFragmentToDetailContainerFragment()
             v.findNavController().navigate(action)

@@ -9,6 +9,8 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "recipesTab")
 class Recipe(
     @PrimaryKey
+    @ColumnInfo(name = "RecipeId")
+    var recipeId : String,
     @ColumnInfo(name = "Id")
     var id : Int,
     @ColumnInfo(name = "Name")
@@ -18,7 +20,9 @@ class Recipe(
     @ColumnInfo(name = "Image")
     var image : String,
     @ColumnInfo(name = "Recipe")
-    var recipe : String
+    var recipe : String,
+    @ColumnInfo(name = "VisibilityId")
+    var visibilityId : String
 ) : Parcelable
 {
 }

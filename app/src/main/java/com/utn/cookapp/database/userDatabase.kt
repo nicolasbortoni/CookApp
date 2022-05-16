@@ -22,7 +22,7 @@ public  abstract class userDatabase : RoomDatabase() {
                         context.applicationContext,
                         userDatabase::class.java,
                         "userDB"
-                    ).allowMainThreadQueries().build() // No es lo mas recomendable que se ejecute en el mainthread
+                    ).allowMainThreadQueries().build()
                 }
             }
             return INSTANCE

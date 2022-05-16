@@ -19,16 +19,16 @@ import com.utn.cookapp.viewmodels.DetailInfoViewModel
 
 class DetailInfoFragment : Fragment() {
 
+    //Views
     private lateinit var viewModel: DetailInfoViewModel
     private lateinit var v : View
-
     private lateinit var recipeImage : ImageView
     private lateinit var recipeTitle : TextView
     private lateinit var recipeAuthor : TextView
-
+    //Database
     private var db: recipeDatabase? = null
     private var recipeDao: recipeDao? = null
-
+    //Variables
     private lateinit var recipeSelected : Recipe
 
     companion object {
@@ -39,22 +39,26 @@ class DetailInfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //Views configuration
         v = inflater.inflate(R.layout.detail_info_fragment, container, false)
         recipeImage = v.findViewById(R.id.recipeImage2)
         recipeTitle = v.findViewById(R.id.recipeTitle)
         recipeAuthor = v.findViewById(R.id.recipeAuthor2)
+
         return v
     }
 
     override fun onStart() {
         super.onStart()
-
+        //Shared preferences init
         val sharedPref : SharedPreferences = requireContext().getSharedPreferences("myPref", Context.MODE_PRIVATE)
+        //Database load
         db = recipeDatabase.getAppDataBase(v.context)
         recipeDao = db?.recipeDao()
-
+        //Select recipe from database
         recipeSelected = recipeDao?.loadPersonById(sharedPref.getInt("recipeSelected",-1)) as Recipe
 
+        //Set interface
         Glide
             .with(v.context)
             .load(recipeSelected.image)

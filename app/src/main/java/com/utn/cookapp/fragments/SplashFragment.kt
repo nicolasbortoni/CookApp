@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.findNavController
 import com.utn.cookapp.R
 import com.utn.cookapp.viewmodels.SplashViewModel
@@ -39,7 +41,8 @@ class SplashFragment : Fragment() {
                 val action = SplashFragmentDirections.actionSplashFragmentToLoginFragment()
                 v.findNavController().navigate(action)
             }
-            , 5000)
+            , 1000)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

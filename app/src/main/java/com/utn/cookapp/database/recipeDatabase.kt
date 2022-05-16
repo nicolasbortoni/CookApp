@@ -22,7 +22,7 @@ public  abstract class recipeDatabase : RoomDatabase() {
                         context.applicationContext,
                         recipeDatabase::class.java,
                         "recipesDB"
-                    ).allowMainThreadQueries().build() // No es lo mas recomendable que se ejecute en el mainthread
+                    ).allowMainThreadQueries().build()
                 }
             }
             return INSTANCE
