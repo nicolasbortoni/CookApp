@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.net.toUri
 import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import com.utn.cookapp.R
@@ -74,10 +75,10 @@ class ProfileFragment : Fragment() {
         usernameTextView.text = "Username: " + userLoged.user
         ageTextView.text = "Age: " + userLoged.age
 
-        val imageBytes = Base64.getDecoder().decode(userLoged.profileImage)
-        val image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+        //val imageBytes = Base64.getDecoder().decode(userLoged.profileImage)
+        //val image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
 
-        profileImage.setImageBitmap(image)
+        profileImage.setImageURI(userLoged.profileImage.toUri())
 
         settingsBtn.setOnClickListener {
             //Navigate to SettingsActivity

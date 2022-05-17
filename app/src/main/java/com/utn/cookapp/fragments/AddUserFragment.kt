@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.provider.MediaStore
@@ -44,6 +45,7 @@ class AddUserFragment : Fragment() {
 
     private lateinit var userList: MutableList<User>
     private var imageBitmap : Bitmap? = null
+    private var imageUri : Uri? = null
 
     companion object {
         fun newInstance() = AddUserFragment()
@@ -98,7 +100,7 @@ class AddUserFragment : Fragment() {
                         usrPlainText.text.toString(),
                         passPlainText.text.toString(),
                         agePlainText.text.toString(),
-                        BitMapToString(imageBitmap)
+                        imageUri.toString()
                     )
                 )
                 v.findNavController().popBackStack()
@@ -106,7 +108,7 @@ class AddUserFragment : Fragment() {
         }
         selectImageBtn.setOnClickListener {
             val intent = Intent()
-            intent.action = Intent.ACTION_GET_CONTENT
+            intent.action = Intent.ACTION_OPEN_DOCUMENT
             intent.type = "image/*"
             startActivityForResult(intent,100)
         }
@@ -116,8 +118,10 @@ class AddUserFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 100 && resultCode == RESULT_OK){
-            imageBitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver,data?.data)
-            profileView.setImageBitmap(imageBitmap)
+            imageUri = data?.data
+            profileView.setImageURI(imageUri)
+            //imageBitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver,data?.data)
+            //profileView.setImageBitmap(imageBitmap)
         }
     }
 
