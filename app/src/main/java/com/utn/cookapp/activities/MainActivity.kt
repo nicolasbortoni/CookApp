@@ -33,5 +33,4 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(bottomNavigationView,navHostFragment.navController)
 
     }
-
 }
